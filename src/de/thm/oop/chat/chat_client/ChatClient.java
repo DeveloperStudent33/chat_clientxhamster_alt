@@ -15,14 +15,14 @@ public class ChatClient {
 
     public void getData(){
         Scanner inputScanner = new Scanner(System.in);
-        String username;
-        String password;
-        do {
+        String username = "nmueller";
+        String password = "Ok16m8rx";
+        /*do {
             System.out.print("Please enter your username: ");
             username = inputScanner.next();
             System.out.print("Please enter your password: ");
             password = inputScanner.next();
-        } while (!this.checkData(username, password));
+        } while (!this.checkData(username, password));*/
 
         user = new User(username, password);
         System.out.println("Logged in as " + username + "!");

@@ -1,6 +1,7 @@
 package de.thm.oop.chat.chat_client;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
+import de.thm.oop.chat.hamster.Suche;
 import de.thm.oop.chat.messages.*;
 import de.thm.oop.chat.receiver.Group;
 import java.io.IOException;
@@ -31,11 +32,12 @@ public class CommandHandler extends ChatClient{
             case "msgP" -> this.msgP(inputFiltered[1], inputFiltered[2]);
             case "msgGP" -> this.msgGP(inputFiltered[1], inputFiltered[2]);
             case "help" -> this.help();
-            case "getMsg" -> this.getMsg();
+            case "getMsg" -> this.printMsg(saveMsg());
             case "getUsers" -> this.getUsers();
             case "createGroup" -> this.createGroup(inputFiltered);
             case "getGroups" -> this.getGroups();
             case "exit" -> super.setActive();
+            case "LabyrinthSuche" -> this.labyrinthSuche();
             default -> System.out.println("Command could not be found.");
         }
     }
@@ -49,7 +51,7 @@ public class CommandHandler extends ChatClient{
                 "- help          -> Instruction declaration\n" +
                 "- getMsg        -> Get messages    [Retrieve all messages]\n" +
                 "- getUsers      -> Get all users   [Retrieving a list of users (= potential chat partners]\n" +
-                "- createGroup   -> Create a group          -> craeteGroup [Name] [Member1] [Member2] [Member3] ...\n" +
+                "- createGroup   -> Create a group          -> createGroup [Name] [Member1] [Member2] [Member3] ...\n" +
                 "- getGroups     -> Displays all groups\n" +
                 "- exit          -> Close/Cancel program");
     }
@@ -129,30 +131,37 @@ public class CommandHandler extends ChatClient{
         }
     }
 
-    public void getMsg() {
+    public ArrayList<Message> saveMsg() {
         String[] allMessages = new String[0];
         // Server connection
         try {
-            allMessages = server.getMessages(super.getUser().getUsername(), super.getUser().getPassword(),0);
+            allMessages = server.getMessages(super.getUser().getUsername(), super.getUser().getPassword(), 0);
         } catch (IOException e) {
             System.out.println("An unexpected error has occurred.");
         }
-
+        ArrayList<Message> messages = new ArrayList<>();
         for (String allMessage : allMessages) {
             String[] splitMessage = allMessage.split("\\|");
             // Save Messages to Objects
-            ArrayList<Message> messages = new ArrayList<>();
             boolean out = (splitMessage[2].equals("out"));
             if (splitMessage[4].equals("img")) {
                 messages.add(new Picture(splitMessage[3], splitMessage[1], Integer.parseInt(splitMessage[0]), out, splitMessage[7], splitMessage[5]));
             } else {
                 messages.add(new Text(splitMessage[3], splitMessage[1], Integer.parseInt(splitMessage[0]), out, splitMessage[5]));
             }
-
-            // Paste Messages from Objects
-            for (Message msgs : messages) {
-                System.out.println(msgs.toString());
-            }
         }
+        return messages;
+    }
+
+    public void printMsg(ArrayList<Message> messages){
+        // Paste Messages from Objects
+        for (Message msgs : messages) {
+            System.out.println(msgs.toString());
+        }
+    }
+
+    public void labyrinthSuche(){
+        Suche labyrinthSuche = new Suche(this);
+        // Einfügen, was der Hamster zurückschickt --> gleich in den Konstruktor mit rein
     }
 }

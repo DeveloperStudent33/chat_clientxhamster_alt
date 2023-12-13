@@ -45,4 +45,8 @@ public class Picture extends Message {
     public String toString() {
         return "MessageID: " + super.getId() + " | " + super.getTimestamp() + " | '" + this.path + "' | " + (super.isOut() ? "send to " : "received from ") + super.getReceiver().getName();
     }
+
+    public String getContent() {
+        return path;
+    }
 }

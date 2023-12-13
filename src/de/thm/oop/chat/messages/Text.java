@@ -30,4 +30,9 @@ public class Text extends Message {
     public String toString() {
         return "MessageID: " + super.getId() + " | " + super.getTimestamp() + " | '" + this.text + "' | " + (super.isOut() ? "send to " : "received from ") + super.getReceiver().getName();
     }
+
+    @Override
+    public String getContent() {
+        return text;
+    }
 }
