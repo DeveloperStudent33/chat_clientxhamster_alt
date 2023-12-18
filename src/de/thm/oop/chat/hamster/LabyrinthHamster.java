@@ -19,15 +19,12 @@ public class LabyrinthHamster extends ChatHamster{
     }
 
     public boolean vorneFrei(boolean[][] besucht){
-        if(vornFrei() && !wurdeDasVonMirBesucht(besucht)){
-            return true;
-        }
-        return false;
+        return vornFrei() && wurdeDasVonMirBesucht(besucht);
     }
 
     public boolean linksFrei(boolean[][] besucht){
         linksUm();
-        if(vornFrei() && !wurdeDasVonMirBesucht(besucht)){
+        if(vornFrei() && wurdeDasVonMirBesucht(besucht)){
             rechtsUm();
             return true;
         }
@@ -37,7 +34,7 @@ public class LabyrinthHamster extends ChatHamster{
 
     public boolean rechtsFrei(boolean[][] besucht){
         rechtsUm();
-        if(vornFrei() && !wurdeDasVonMirBesucht(besucht)){
+        if(vornFrei() && wurdeDasVonMirBesucht(besucht)){
             linksUm();
             return true;
         }
@@ -46,7 +43,7 @@ public class LabyrinthHamster extends ChatHamster{
     }
 
     public boolean wurdeDasVonMirBesucht(boolean[][] besucht){
-        return switch (this.getBlickrichtung()) {
+        return !switch (this.getBlickrichtung()) {
             case 0 -> besucht[getReihe() - 1][getSpalte()];
             case 1 -> besucht[getReihe()][getSpalte() + 1];
             case 2 -> besucht[getReihe() + 1][getSpalte()];

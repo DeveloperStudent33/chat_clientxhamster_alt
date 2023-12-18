@@ -16,15 +16,15 @@ public class Suche {
             }
         }
 
-        /*if(!hamster.linksFrei() && !hamster.rechtsFrei() && !hamster.vorneFrei()){ 			// Wenn der Hamster in einer Sackgasse startet
+        if(!hamster.linksFrei(besucht) && !hamster.rechtsFrei(besucht) && !hamster.vorneFrei(besucht)){
             hamster.kehrt();
-        }*/
+        }
 
         durchsucheLabyrinth();
     }
 
     public boolean durchsucheLabyrinth(){
-        if(hamster.kornDa()){ 																// Wurde das korn gefunden???
+        if(hamster.kornDa()){
             hamster.nimm();
             hamster.schreib("Korn gefunden");
             return true;
@@ -32,20 +32,20 @@ public class Suche {
 
         besucht[hamster.getReihe()][hamster.getSpalte()] = true;
 
-        if(hamster.linksFrei(besucht) && durchsucheTeilLabyrinthLinks()){ 					// ist links offen, dann besuche links das Labyrinth
+        if(hamster.linksFrei(besucht) && durchsucheTeilLabyrinthLinks()){
             return true;
         }
 
-        if(hamster.rechtsFrei(besucht) && durchsucheTeilLabyrinthRechts()){ 					// ist rechts offen, dann besuche rechts das Labyrinth
+        if(hamster.rechtsFrei(besucht) && durchsucheTeilLabyrinthRechts()){
             return true;
         }
 
-        if(!hamster.vorneFrei(besucht)){ 														// Sackgasse
+        if(!hamster.vorneFrei(besucht)){
             hamster.kehrt();
             return false;
         }
 
-        return durchsucheTeilLabyrinthVorne();											// sonst vorne Durchsuchen
+        return durchsucheTeilLabyrinthVorne();
     }
 
     public boolean durchsucheTeilLabyrinthLinks(){
