@@ -1,7 +1,7 @@
 package de.thm.oop.chat.chat_client;
 
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
-import de.thm.oop.chat.hamster.Suche;
+import de.thm.oop.chat.hamster.Search;
 import de.thm.oop.chat.messages.*;
 import de.thm.oop.chat.receiver.Group;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class CommandHandler extends ChatClient{
             case "createGroup" -> this.createGroup(inputFiltered);
             case "getGroups" -> this.getGroups();
             case "exit" -> super.setActive();
-            case "LabyrinthSuche" -> this.labyrinthSuche();
+            case "LabyrinthSuche" -> this.labyrinthSearch();
             default -> System.out.println("Command could not be found.");
         }
     }
@@ -160,8 +160,8 @@ public class CommandHandler extends ChatClient{
         }
     }
 
-    public void labyrinthSuche(){
-        Suche labyrinthSuche = new Suche(this);
+    public void labyrinthSearch(){
+        Search labyrinthSearch = new Search(this);
         // Einfügen, was der Hamster zurückschickt --> gleich in den Konstruktor mit rein
     }
 }

@@ -3,68 +3,67 @@ package de.thm.oop.chat.hamster;
 import de.thm.oop.chat.chat_client.CommandHandler;
 import de.thm.oop.chat.messages.Message;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class ChatHamster {
 
     private CommandHandler commandHandler;
-    private int blickrichtung;
-    String[][] feld;
-    private int reihe;
-    private int spalte;
+    private int direction;
+    String[][] field;
+    private int row;
+    private int column;
 
-    private int territoriumSpalten;
-    private int territoriumReihen;
+    private int territoryColumns;
+    private int territoryRows;
 
 
     public ChatHamster(CommandHandler commandHandler) {
-        this.blickrichtung = 1;
-        this.reihe = 0;
-        this.spalte = 0;
+        this.direction = 1;
+        this.row = 0;
+        this.column = 0;
         this.commandHandler = commandHandler;
         String text1, text2;
         do {
-            befehlSchicken("init");
+            sendCommand("init");
             ArrayList<Message> msg = commandHandler.saveMsg();
             text1 = msg.get(msg.size()-3).getContent();
             text2 = msg.get(msg.size()-2).getContent();
         } while (!text1.startsWith("farbe"));
         System.out.println("[Hampter]: Im starting with color " + text1.substring(7));
 
-        feldBerechnen(text2);
+        calculateField(text2);
     }
 
-    public void feldBerechnen(String text){
+    public void calculateField(String text){
         String[] text2Splitted = text.split(" ");
-        territoriumSpalten = Integer.parseInt(text2Splitted[1]);
-        territoriumReihen = Integer.parseInt(text2Splitted[2]);
-        feld = new String[territoriumReihen][territoriumSpalten];
+        territoryColumns = Integer.parseInt(text2Splitted[1]);
+        territoryRows = Integer.parseInt(text2Splitted[2]);
+        field = new String[territoryRows][territoryColumns];
         int counter = 3;
-        for (int i = 0; i < feld.length; i++) {
-            for (int j = 0; j < feld[0].length; j++) {
-                feld[i][j] = text2Splitted[counter];
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[0].length; j++) {
+                field[i][j] = text2Splitted[counter];
                 counter++;
             }
         }
     }
 
-    public void befehlSchicken(String befehl){
-        this.commandHandler.msg(new String[]{"", "hamster23ws", befehl});
+    public void sendCommand(String command){
+        this.commandHandler.msg(new String[]{"", "hamster23ws", command});
     }
 
     public void vor(){
-        befehlSchicken("vor");
-        coordsBerechnen();
+        sendCommand("vor");
+        calculateCoords();
     }
 
     public void linksUm(){
-        befehlSchicken("linksUm");
-        blickrichtungÄndern();
+        sendCommand("linksUm");
+        changeDirection();
     }
 
     public void nimm(){
-        befehlSchicken("nimm");
+        sendCommand("nimm");
     }
 
     public void schreib(String input){
@@ -72,56 +71,56 @@ public class ChatHamster {
     }
 
     public boolean kornDa(){
-        return feld[reihe][spalte].equals("!");
+        return field[row][column].equals("!");
     }
 
     public boolean vornFrei(){
-        if (blickrichtung == 0 && (getReihe()-1) >= 0) {
-            return !feld[getReihe() - 1][getSpalte()].equals("x");
-        } else if (blickrichtung == 1 && (getSpalte()+1) < feld[0].length) {
-            return !feld[getReihe()][getSpalte() + 1].equals("x");
-        } else if (blickrichtung == 2 && (getReihe()+1) < feld.length) {
-            return !feld[getReihe() + 1][getSpalte()].equals("x");
-        } else if (blickrichtung == 3 && (getSpalte()-1) >= 0) {
-            return !feld[getReihe()][getSpalte() - 1].equals("x");
+        if (direction == 0 && (getRow()-1) >= 0) {
+            return !field[getRow() - 1][getColumn()].equals("x");
+        } else if (direction == 1 && (getColumn()+1) < field[0].length) {
+            return !field[getRow()][getColumn() + 1].equals("x");
+        } else if (direction == 2 && (getRow()+1) < field.length) {
+            return !field[getRow() + 1][getColumn()].equals("x");
+        } else if (direction == 3 && (getColumn()-1) >= 0) {
+            return !field[getRow()][getColumn() - 1].equals("x");
         }
         return false;
     }
 
-    public int getReihe(){
-        return reihe;
+    public int getRow(){
+        return row;
     }
 
-    public int getSpalte(){
-        return spalte;
+    public int getColumn(){
+        return column;
     }
 
-    public int getBlickrichtung(){
-        return blickrichtung;
+    public int getDirection(){
+        return direction;
     }
 
-    public int getTerritoriumSpalten() {
-        return territoriumSpalten;
+    public int getTerritoryColumns() {
+        return territoryColumns;
     }
 
-    public int getTerritoriumReihen() {
-        return territoriumReihen;
+    public int getTerritoryRows() {
+        return territoryRows;
     }
 
-    public void blickrichtungÄndern(){
-        if(blickrichtung == 0){
-            blickrichtung = 3;
+    public void changeDirection(){
+        if(direction == 0){
+            direction = 3;
         } else {
-            blickrichtung--;
+            direction--;
         }
     }
 
-    public void coordsBerechnen(){
-        switch(blickrichtung) {
-            case 0 -> reihe--;
-            case 1 -> spalte++;
-            case 2 -> reihe++;
-            case 3 -> spalte--;
+    public void calculateCoords(){
+        switch(direction) {
+            case 0 -> row--;
+            case 1 -> column++;
+            case 2 -> row++;
+            case 3 -> column--;
         }
     }
 }

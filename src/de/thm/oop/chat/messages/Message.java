@@ -4,8 +4,6 @@ import de.thm.oop.chat.chat_client.User;
 import de.thm.oop.chat.base.server.BasicTHMChatServer;
 import de.thm.oop.chat.receiver.Receiver;
 
-import javax.swing.*;
-
 public abstract class Message {
     private Receiver receiver;
     private String timestamp;
