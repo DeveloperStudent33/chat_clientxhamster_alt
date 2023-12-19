@@ -1,0 +1,5 @@
+Java-Version: Oracle OpenJDK 18.0.1
+
+Hinweise zur Verwendung:
+    - Befehl "help" listet alle Befehle
+    - Befehl "LabyrinthSuche" startet die Suche des Hamsters
